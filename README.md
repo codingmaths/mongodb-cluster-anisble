@@ -34,5 +34,4 @@ The inventory file looks as follows:
 
 Build the site by mongodb playbook using the following command:
 
-		ansible-playbook -i hosts site.yml
-		
+		ansible-playbook -i hosts main.yml

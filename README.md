@@ -1,4 +1,4 @@
-##Deploying a sharded MongoDB(3.2+) cluster with Ansible(2.1+)
+##Deploying a sharded MongoDB(3.4+) cluster with Ansible(2.1+)
 ------------------------------------------------------------------------------
 
 - Requires Ansible 2.1+ 

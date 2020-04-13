@@ -3,7 +3,7 @@
 mongodb_version: 3.4.24
 
 # The chunksize for shards in MB
-mongos_chunk_size: 1
+#mongos_chunk_size: 1
 
 # The port in which mongos server should listen on 
 mongos_port: 27017

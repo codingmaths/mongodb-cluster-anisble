@@ -1,4 +1,7 @@
 ---
+- name: add
+  template: src=hosts.j2 dest=/etc/hosts
+
 - name: Refresh repository cache
   shell: yum clean all && yum makecache
 
@@ -11,7 +14,7 @@
 - name: Install the mongodb package
   yum: name={{ item }} state=present
   with_items:
-#   - python-pip
+   - python-pip
    - policycoreutils-python
    - mongodb-org-mongos-{{mongodb_version}}
    - mongodb-org-shell-{{mongodb_version}}

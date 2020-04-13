@@ -5,6 +5,7 @@
 - name: set selinux permissive
   selinux:
     state: permissive
+    policy: targeted
 
 - name: set selinux disable
   selinux:

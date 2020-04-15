@@ -10,10 +10,7 @@ processManagement:
 
 net:
   port: {{ mongos_port }}
-
-security:
-  keyFile: {{ mongodb_datadir_prefix }}/secret
+  bindIp: "0.0.0.0"
 
 sharding:
    configDB: "mongoc/{{configDB}}"
-

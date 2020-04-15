@@ -2,7 +2,6 @@ db.createUser({
   user: 'admin',
   pwd: '{{mongo_admin_pass}}',
   roles : [
-    'userAdminAnyDatabase',
     'clusterAdmin'
   ]
 });
@@ -10,7 +9,7 @@ db.createUser({
 db.auth('admin', '{{mongo_admin_pass}}');
 
 {% for host in groups.mongo_servers %}
-  sh.addShard("{{host}}/{{host}}:{{hostvars[host].mongod_port}}");
+  sh.addShard("shardreplica01/{{host}}:{{hostvars[host].mongod_port}}");
 {% endfor %}
 
 printjson(sh.status());

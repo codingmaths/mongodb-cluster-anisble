@@ -13,6 +13,9 @@
 - name: Start the mongodb service
   systemd: name=mongos state=started daemon_reload=yes enabled=yes
 
+- name: Disable the mongodb service
+  systemd: name=mongod state=stopped daemon_reload=yes enabled=no
+
 - wait_for:
     port: "{{ mongos_port }}"
     delay: 3
@@ -24,3 +27,4 @@
 - name: Create sharding
   shell: /usr/bin/mongo "localhost:{{ mongos_port }}/admin" /tmp/mongos_init.js
   when: "{{inventory_hostname == groups['mongos_servers'][0]}}"
+  ignore_errors: true

@@ -1,0 +1,16 @@
+---
+- name: Install the mongodb package
+  yum: name={{ item }} state=absent
+  with_items:
+   - mongodb-org-mongos-{{mongodb_version}}
+   - mongodb-org-shell-{{mongodb_version}}
+   - mongodb-org-server-{{mongodb_version}}
+
+- name: create log directory for mongodb
+  file: path=/var/log/mongo state=absent 
+
+- name: create run directory for mongodb
+  file: path=/var/run/mongo state=absent 
+
+- name: create run directory for mongodb
+  file: path=/data state=absent 

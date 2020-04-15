@@ -1,0 +1,16 @@
+---
+
+- name: Start the mongodb service
+  systemd: name=mongod state=restarted daemon_reload=yes enabled=yes
+  delegate_to: '{{ item }}'
+  with_items: "{{groups.replication_servers}}"
+
+- name: Start the mongoc service
+  systemd: name=mongoc state=restarted daemon_reload=yes enabled=yes
+  delegate_to: '{{ item }}'
+  with_items: "{{groups.mongoc_servers}}"
+
+- name: Start the mongos service
+  systemd: name=mongos state=restarted daemon_reload=yes enabled=yes
+  delegate_to: '{{ item }}'
+  with_items: "{{groups.mongos_servers}}"

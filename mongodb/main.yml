@@ -5,14 +5,17 @@
   roles:
   - role: common
 
-- hosts: mongo_servers
-  roles:
-  - role: mongod
-
+## Create Config Server Replica Set
 - hosts: mongoc_servers
   roles:
   - role: mongoc
 
+## Create the Shard Replica Sets
+- hosts: mongo_servers
+  roles:
+  - role: mongod
+
+# Create Shart Server
 - hosts: mongos_servers
   roles:
   - role: mongos

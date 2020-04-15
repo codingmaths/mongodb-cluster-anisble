@@ -1,6 +1,6 @@
 rs.initiate(
   {
-    _id : "{{ inventory_hostname }}",
+    _id : "shardreplica01",
     members: [
     {% for host in groups['replication_servers'] %}
       { _id : {{loop.index}}, host: "{{host}}:{{mongod_port}}" },

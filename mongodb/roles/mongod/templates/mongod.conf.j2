@@ -2,25 +2,26 @@
 
 systemLog:
   destination: file
-  path: "/var/log/mongo/mongod-{{ inventory_hostname }}.log"
+  path: "/var/log/mongo/mongod.log"
   logAppend: true
 
 storage:
-  dbPath: {{ mongodb_datadir_prefix }}mongo-{{ inventory_hostname }}
+  dbPath: {{ mongodb_datadir_prefix }}mongo
 
 processManagement:
   fork: true
-  pidFilePath: /var/run/mongo/mongod-{{ inventory_hostname }}.pid
-
+  pidFilePath: /var/run/mongo/mongod.pid
 
 security:
-  keyFile: {{ mongodb_datadir_prefix }}secret
+  authorization: disabled
+  #keyFile: {{ mongodb_datadir_prefix }}secret
 
 net:
   port: {{ mongod_port }}
+  bindIp: "0.0.0.0"
 
 replication:
-  replSetName: {{ inventory_hostname }}
+  replSetName: "shardreplica01"
 
 sharding:
   clusterRole: shardsvr

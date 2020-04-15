@@ -26,21 +26,10 @@
     port: "{{ mongoc_port }}"
     delay: 3
 
-- name: Create the file to initialize mongo user
+- name: Create the file to initialize replication
   template: src=mongoc_init.js.j2 dest=/tmp/mongoc_init.js
   when: "{{inventory_hostname == groups['mongoc_servers'][0]}}"
 
-- name: Create admin User
+- name: Enable replication 
   shell: /usr/bin/mongo "localhost:{{ mongoc_port }}/admin" /tmp/mongoc_init.js
   when: "{{inventory_hostname == groups['mongoc_servers'][0]}}"
-  ignore_errors: yes
-
-#- name: add the admin user
-#  mongodb_user:
-#    login_database: admin
-#    login_port: "{{ mongoc_port }}"
-#    database: admin
-#    name: admin
-#    password: "{{ mongo_admin_pass }}"
-#    state: present
-#  ignore_errors: yes

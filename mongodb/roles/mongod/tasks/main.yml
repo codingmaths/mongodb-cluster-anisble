@@ -2,19 +2,13 @@
 # This role deploys the mongod processes and sets up the replication set.
 
 - name: create data directory for mongodb
-  file: path={{ mongodb_datadir_prefix }}/mongo-{{ inventory_hostname }} state=directory owner=mongod group=mongod
-  delegate_to: '{{ item }}'
-  with_items: "{{groups.replication_servers}}"
+  file: path={{ mongodb_datadir_prefix }}/mongo state=directory owner=mongod group=mongod
 
 - name: Create the mongodb startup file
-  template: src=mongod.service.j2 dest=/etc/systemd/system/mongod-{{ inventory_hostname }}.service mode=0644 seuser=system_u
-  delegate_to: '{{ item }}'
-  with_items: "{{groups.replication_servers}}"
+  template: src=mongod.service.j2 dest=/etc/systemd/system/mongod.service mode=0644 seuser=system_u
 
 - name: Create the mongodb configuration file
-  template: src=mongod.conf.j2 dest=/etc/mongod-{{ inventory_hostname }}.conf
-  delegate_to: '{{ item }}'
-  with_items: "{{groups.replication_servers}}"
+  template: src=mongod.conf.j2 dest=/etc/mongod.conf
 
 - name: Copy the keyfile for authentication
   copy:
@@ -26,7 +20,7 @@
     setype: mongod_var_lib_t
 
 - name: Start the mongodb service
-  systemd: name=mongod-{{ inventory_hostname }} state=started daemon_reload=yes enabled=yes
+  systemd: name=mongod state=started daemon_reload=yes enabled=yes
   delegate_to: '{{ item }}'
   with_items: "{{groups.replication_servers}}"
 
@@ -34,10 +28,10 @@
     port: "{{ mongod_port }}"
     delay: 5
 
-- name: Create the file to initialize the mongod replica set
+- name: Create the file to initialize replication
   template: src=mongod_init.js.j2 dest=/tmp/mongod_init.js
+  when: "{{inventory_hostname == groups['mongo_servers'][0]}}"
 
-- name: Initialize the replication set
+- name: Enable shard replicationset
   shell: /usr/bin/mongo "localhost:{{ mongod_port }}/admin" /tmp/mongod_init.js
-  ignore_errors: yes
-
+  when: "{{inventory_hostname == groups['mongo_servers'][0]}}"

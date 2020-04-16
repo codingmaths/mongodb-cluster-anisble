@@ -1,6 +1,6 @@
 ---
 
-- hosts: mongo1
+- hosts: mongos1
   roles:
   - role: shard_test
 

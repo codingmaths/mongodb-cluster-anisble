@@ -25,5 +25,5 @@ iface: '{{ ansible_default_ipv4.interface }}'
 
 # The password for admin user
 user: admin
-mongo_admin_pass: tD9C03b12nv5RTs
+mongo_admin_pass: 123456
 
